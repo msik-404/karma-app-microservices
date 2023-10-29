@@ -1,0 +1,133 @@
+version: '3.9'
+
+services:
+  posts-backend:
+    depends_on:
+      - posts-mongo
+    image: msik/karma-app-posts:latest
+    env_file:
+      - .env
+    hostname: ${KARMA_APP_POSTS_HOST}
+    ports:
+      - 50051:50051
+    networks:
+      - karma-app-posts-net
+      - karma-app-net
+  posts-mongo:
+    image: mongo
+    hostname: ${KARMA_APP_POSTS_DB_HOST}
+    ports:
+      - 27017:27017
+    networks:
+      - karma-app-posts-net
+    environment:
+      - MONGO_INITDB_ROOT_DATABASE=${KARMA_APP_POSTS_DB_NAME}
+    volumes:
+      - posts-db-data:/data/db
+      - posts-db-config:/data/configdb
+    command: mongod --replSet rs0
+  posts-mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8081:8081
+    networks:
+      - karma-app-posts-net
+    environment:
+      ME_CONFIG_MONGODB_SERVER: ${KARMA_APP_POSTS_DB_NAME}
+      ME_CONFIG_MONGODB_PORT: "27017"
+
+  users-backend:
+    depends_on:
+      - users-mongo
+    image: msik/karma-app-users:latest
+    env_file:
+      - .env
+    hostname: ${KARMA_APP_USERS_HOST}
+    ports:
+      - 50052:50051
+    networks:
+      - karma-app-users-net
+      - karma-app-net
+  users-mongo:
+    image: mongo
+    hostname: ${KARMA_APP_USERS_DB_HOST}
+    ports:
+      - 27018:27017
+    networks:
+      - karma-app-users-net
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${KARMA_APP_USERS_DB_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${KARMA_APP_USERS_DB_PASSWORD}
+      - MONGO_INITDB_ROOT_DATABASE=${KARMA_APP_USERS_DB_NAME}
+    volumes:
+      - users-db-data:/data/db
+      - users-db-config:/data/configdb
+  users-mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 8082:8081
+    networks:
+      - karma-app-users-net
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${KARMA_APP_USERS_DB_USER}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${KARMA_APP_USERS_DB_PASSWORD}
+      ME_CONFIG_MONGODB_SERVER: ${KARMA_APP_USERS_DB_NAME}
+      ME_CONFIG_MONGODB_PORT: "27017"
+
+  gateway-backend:
+    depends_on:
+      - gateway-redis
+      - posts-backend
+      - users-backend
+    image: msik/karma-app-gateway
+    env_file:
+      - .env
+    networks:
+      - karma-app-gateway-net
+      - karma-app-net
+    ports:
+      - 8080:8080
+  gateway-redis:
+    image: redis:latest
+    hostname: ${KARMA_APP_GATEWAY_REDIS_HOSTNAME}
+    networks:
+      - karma-app-gateway-net
+    ports:
+      - 6380:6379
+      - 8001:8001
+    volumes:
+      - gateway-redis-data:/data
+      - ./redis.conf:/usr/local/etc/redis/redis.conf
+
+volumes:
+  posts-db-data:
+    driver: local
+  posts-db-config:
+    driver: local
+
+  users-db-data:
+    driver: local
+  users-db-config:
+    driver: local
+
+  gateway-redis-data:
+    driver: local
+
+networks:
+  karma-app-posts-net:
+    name: karma-app-posts-net
+    driver: bridge
+
+  karma-app-users-net:
+    name: karma-app-users-net
+    driver: bridge
+
+  karma-app-gateway-net:
+    name: karma-app-gateway-net
+    driver: bridge
+
+  karma-app-net:
+    name: karma-app-net
+    driver: bridge
