@@ -11,11 +11,11 @@ In this repository one can find [docker-compose-yaml](https://github.com/msik-40
 To start the microservice one should use provided bash scripts but pure docker can also be used.
 
 ## Bash scripts
-Starting microservice: [start.sh](https://github.com/msik-404/karma-app-microservices/blob/main/start.sh)
+Starting all microservices: [start.sh](https://github.com/msik-404/karma-app-microservices/blob/main/start.sh)
 
-Stopping microservice: [stop.sh](https://github.com/msik-404/karma-app-microservices/blob/main/stop.sh) 
+Stopping all microservices: [stop.sh](https://github.com/msik-404/karma-app-microservices/blob/main/stop.sh) 
 
-Cleaning after microservice: [clean.sh](https://github.com/msik-404/karma-app-microservices/blob/main/clean.sh)
+Cleaning after microservices: [clean.sh](https://github.com/msik-404/karma-app-microservices/blob/main/clean.sh)
 
 To run the scripts make them executable for example:
 ```
