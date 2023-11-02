@@ -42,7 +42,7 @@ docker exec -it karma-app-microservices-posts-mongo-1 mongosh --eval "rs.initiat
 ```
 
 # Starting the app for testing
-Scripts for starting deployment for testings reside under [test](https://github.com/msik-404/karma-app-microservices/tree/main/test) folder.
+Scripts for starting deployment for testings reside under [test/karma-app-microservices](https://github.com/msik-404/karma-app-microservices/tree/main/test/karma-app-microservices) folder.
 Use them in the same way as above.
 
 If one would like to use pure docker in testing setup, this command should be run at the end.
