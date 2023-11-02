@@ -36,7 +36,7 @@ and then use:
 ```
 docker compose up
 ```
-When all containers are running, run the following commands in the separate command line.
+When all containers are running, run the following command in the separate command line.
 ```
 docker exec -it karma-app-microservices-posts-mongo-1 mongosh --eval "rs.initiate()"
 ```
