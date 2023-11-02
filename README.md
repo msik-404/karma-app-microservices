@@ -51,4 +51,6 @@ If one would like to use pure docker in testing setup, this command should be ru
 docker restart karma-app-microservices-posts-mongo-express-1
 ``` 
 
-To understand why these two last commands are required, check out [karma-app-posts Transaction requirements](https://github.com/msik-404/karma-app-posts#transaction-requirements) repository section.
+## Note
+
+To understand why these two last commands in pure docker method are required, check out [karma-app-posts Transaction requirements](https://github.com/msik-404/karma-app-posts#transaction-requirements) repository section.
