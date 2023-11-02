@@ -34,7 +34,7 @@ and then use:
 
 ### Note
 The first time `start.sh` script get runs, deployment might fail because of long download time of images. 
-To fix this issue, after finishing downloading every image run clean.sh and then again start.sh. 
+To fix this issue, after finishing downloading every image run `clean.sh` and then again `start.sh`.
 
 ## Pure docker method
 ```
